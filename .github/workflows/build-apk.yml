@@ -34,7 +34,12 @@ jobs:
         run: |
           PROJECT_DIR="$(dirname "$(find extracted -name settings.gradle.kts -print -quit)")"
           test -n "$PROJECT_DIR"
-          sed -i 's/VERSION_1_8/VERSION_17/g; s/"1.8"/"17"/g' "$PROJECT_DIR/app/build.gradle.kts"
+
+          find "$PROJECT_DIR" -type f \( -name '*.gradle' -o -name '*.gradle.kts' \) -exec sed -i 's/VERSION_1_8/VERSION_17/g; s/"1.8"/"17"/g' {} +
+
+          echo "Checking Java version settings:"
+          grep -R -n 'VERSION_1_8\|"1.8"' "$PROJECT_DIR" || true
+
           cd "$PROJECT_DIR"
           gradle --no-daemon assembleDebug
 
