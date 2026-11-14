@@ -34,6 +34,7 @@ jobs:
         run: |
           PROJECT_DIR="$(dirname "$(find extracted -name settings.gradle.kts -print -quit)")"
           test -n "$PROJECT_DIR"
+          sed -i 's/VERSION_1_8/VERSION_17/g; s/"1.8"/"17"/g' "$PROJECT_DIR/app/build.gradle.kts"
           cd "$PROJECT_DIR"
           gradle --no-daemon assembleDebug
 
